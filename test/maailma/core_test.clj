@@ -16,13 +16,6 @@
 (deftest env-get-test
   (is (= 5 (env-get {:a "5"} [:a] s/Num))))
 
-(deftest encrypt-test
-  (let [secret "salasana"
-        data "secret-stuff"
-        enc (encrypt secret data)]
-    (is (not= data enc))
-    (is (= data (decrypt secret enc)))))
-
 (deftest read-system-test
   (is (= {:http {:port "3000"}}
          (read-system {} "maailma" {"java.class.path" "" "maailma.http.port" "3000"}))))

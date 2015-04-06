@@ -2,43 +2,12 @@
   (:require [clojure.string :as string]
             [clojure.java.io :as io]
             [clojure.edn :as edn]
-            [clojure.walk :as walk]
             [schema.utils :as su]
             [schema.coerce :as sc]
-            [potpuri.core :refer [deep-merge]])
+            [potpuri.core :refer [deep-merge]]
+            [maailma.encrypt :as enc])
   (:import [java.io File]
-           [java.net URL]
-           [org.jasypt.encryption.pbe StandardPBEStringEncryptor]))
-
-;;
-;; decrypt
-;;
-
-(defrecord ENC [value]
-  Object
-  (toString [this] (str "#ENC" (into {} this))))
-
-(defn- read-edn [s]
-  (edn/read-string {:readers {'ENC #(ENC. %)}} s))
-
-(defn- create-encryptor [secret]
-  (doto (StandardPBEStringEncryptor.)
-    (.setAlgorithm "PBEWITHSHA1ANDDESEDE")
-    (.setPassword secret)))
-
-(defn encrypt [secret text]
-  (.encrypt (create-encryptor secret) text))
-
-(defn decrypt [secret text]
-  (.decrypt (create-encryptor secret) text))
-
-(defn- decrypt-map [secret m]
-  (walk/prewalk
-    (fn [x]
-      (if (and secret (instance? ENC x))
-        (decrypt secret (:value x))
-        x))
-    m))
+           [java.net URL]))
 
 ;;
 ;; common
@@ -63,11 +32,15 @@
               acc))
           config properties))
 
+(defn- read-edn [s]
+  (edn/read-string {:readers {'ENC #(maailma.encrypt.ENC. %)}} s))
+
 (defn read-env-file
   "Read config from given File or URL.
    Non-existing files are skipped."
   [config env-file]
-  (if (or (and (instance? File env-file) (.exists env-file)) (instance? URL env-file))
+  (if (or (and (instance? File env-file) (.exists env-file))
+          (instance? URL env-file))
     (deep-merge config (-> env-file slurp read-edn))
     config))
 
@@ -106,5 +79,5 @@
                    (deep-merge (or override {})))
         private-key (:private-key config)
         config (dissoc config :private-key)
-        decrypted (decrypt-map private-key config)]
+        decrypted (enc/decrypt-map private-key config)]
     decrypted))
