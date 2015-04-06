@@ -1,0 +1,5 @@
+.nrepl*
+target
+.lein*
+doc
+pom.xml*

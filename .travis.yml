@@ -1,0 +1,26 @@
+sudo: false
+language: clojure
+lein: lein2
+script: $TEST
+env:
+  matrix:
+  - TEST=lein2 test-clj
+  - TEST=./scripts/test.sh
+matrix:
+  exclude:
+    - env: TEST=./scripts/test.sh
+      jdk: openjdk6
+    - env: TEST=./scripts/test.sh
+      jdk: openjdk7
+node_js:
+  - "0.10"
+jdk:
+- openjdk6
+- openjdk7
+- oraclejdk8
+cache:
+  directories:
+  - "$HOME/.m2"
+notifications:
+  flowdock:
+    secure: cYGPwnvB5mf4x8gLYKwWKK32LBT2eDuF7unpHwbyw+nVz/sMjpb3GXlcWY48rF2oqpE2pvKtqx07nfIsA89mhPCAjaXKP77fZv9QBlmLtMwnD26PDWIMlCIp9aPg4ktHYOvYjslycrFBUj69FWpV7ciLYojv4VC1/J5XEQgF2LE=

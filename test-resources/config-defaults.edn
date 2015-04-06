@@ -1,0 +1,7 @@
+{:db {:adapter "postgresql"
+      :server-name "localhost"
+      :port-number 5432
+      :database-name "app-db"
+      :username "db-user"
+      :password #ENC {:value "OAgq01UxKpRp9S+MrIyf1w=="}}
+ :http {:port 3000}}
