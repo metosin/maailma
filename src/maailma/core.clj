@@ -19,7 +19,7 @@
   (toString [this] (str "#ENC" (into {} this))))
 
 (defn- read-edn [s]
-  (edn/read-string {:readers {'ENC map->ENC}} s))
+  (edn/read-string {:readers {'ENC #(ENC. %)}} s))
 
 (defn- create-encryptor [secret]
   (doto (StandardPBEStringEncryptor.)
