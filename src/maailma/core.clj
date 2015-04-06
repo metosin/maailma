@@ -33,7 +33,7 @@
           config properties))
 
 (defn- read-edn [s]
-  (edn/read-string {:readers {'ENC #(maailma.encrypt.ENC. %)}} s))
+  (edn/read-string {:readers enc/readers} s))
 
 (defn read-env-file
   "Read config from given File or URL.

@@ -11,6 +11,8 @@
   Object
   (toString [this] (str "#ENC" (into {} this))))
 
+(def readers {'ENC #(ENC. %)})
+
 (defn- create-encryptor [secret]
   (doto (StandardPBEStringEncryptor.)
     (.setAlgorithm "PBEWITHSHA1ANDDESEDE")
