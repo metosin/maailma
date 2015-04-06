@@ -3,13 +3,25 @@
 rev=$(git rev-parse HEAD)
 remoteurl=$(git ls-remote --get-url origin)
 
-if [[ ! -d doc ]]; then
+git fetch
+if [[ -z $(git branch -r --list origin/gh-pages) ]]; then
+    (
+    mkdir doc
+    cd doc
+    git init
+    git remote add origin ${remoteurl}
+    git checkout -b gh-pages
+    git commit --allow-empty -m "Init"
+    git push -u origin gh-pages
+    )
+elif [[ ! -d doc ]]; then
     git clone --branch gh-pages ${remoteurl} doc
+else
+    (
+    cd doc
+    git pull
+    )
 fi
-(
-cd doc
-git pull
-)
 
 lein doc
 cd doc
