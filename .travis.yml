@@ -5,15 +5,6 @@ script: $TEST
 env:
   matrix:
   - TEST=lein2 test-clj
-  - TEST=./scripts/test.sh
-matrix:
-  exclude:
-    - env: TEST=./scripts/test.sh
-      jdk: openjdk6
-    - env: TEST=./scripts/test.sh
-      jdk: openjdk7
-node_js:
-  - "0.10"
 jdk:
 - openjdk6
 - openjdk7

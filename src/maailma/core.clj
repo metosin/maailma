@@ -55,14 +55,18 @@
           (string/split #"\.")
           (as-> s (map keyword s))))
 
-(defn read-system [config prefix properties]
+(defn read-system
+  [config prefix properties]
   (reduce (fn [acc [k v]]
             (if-let [ks (->ks prefix k)]
               (assoc-in acc ks v)
               acc))
           config properties))
 
-(defn read-env-file [config env-file]
+(defn read-env-file
+  "Read config from given File or URL.
+   Non-existing files are skipped."
+  [config env-file]
   (if (or (and (instance? File env-file) (.exists env-file)) (instance? URL env-file))
     (deep-merge config (-> env-file slurp read-edn))
     config))
@@ -80,7 +84,19 @@
   ([config ks schema]
    (env-coerce! (get-in config ks) schema)))
 
-(defn read-config! [prefix & [override]]
+(defn read-config!
+  "Read and merge config from several sources:
+
+   - config-defaults.edn resource
+   - envinronment variables (filtered by prefix)
+   - system properties (filtered by prefix)
+   - {prefix}-private.edn file in current directory
+   - config-local.edn file in current directory
+   - override parameter
+
+   Special property `:private-key` will be used to
+   decrypt any encrypted (#ENC tag) values."
+  [prefix & [override]]
   (let [config (-> {}
                    (read-env-file (io/resource "config-defaults.edn"))
                    (read-system prefix (System/getenv))
