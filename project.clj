@@ -1,4 +1,4 @@
-(defproject metosin/maailma "0.1.0"
+(defproject metosin/maailma "0.1.0-SNAPSHOT"
   :description "Metosin maailma"
   :url "https://github.com/metosin/maailma"
   :license {:name "Eclipse Public License"
@@ -6,9 +6,9 @@
             :distribution :repo
             :comments "same as Clojure"}
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [prismatic/schema "0.4.0"]
+                 [prismatic/schema "0.4.2"]
                  [org.jasypt/jasypt "1.9.2"]
-                 [metosin/potpuri "0.2.1"]]
+                 [metosin/potpuri "0.2.2"]]
   :plugins [[codox "0.8.10"]]
 
   :codox {:src-dir-uri "http://github.com/metosin/maailma/blob/master/"
