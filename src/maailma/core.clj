@@ -2,8 +2,6 @@
   (:require [clojure.string :as string]
             [clojure.java.io :as io]
             [clojure.edn :as edn]
-            [schema.utils :as su]
-            [schema.coerce :as sc]
             [potpuri.core :refer [deep-merge]]
             [maailma.encrypt :as enc])
   (:import [java.io File]
@@ -43,19 +41,6 @@
           (instance? URL env-file))
     (deep-merge config (-> env-file slurp read-edn))
     config))
-
-(defn env-coerce! [value schema]
-  (let [coercer (sc/coercer schema sc/string-coercion-matcher)
-        coerced (coercer value)]
-    (if (su/error? coerced)
-      (throw (ex-info (format "Env value coercion failed: %s" value) {:error (:error coerced)}))
-      coerced)))
-
-(defn env-get
-  ([config ks]
-   (get-in config ks))
-  ([config ks schema]
-   (env-coerce! (get-in config ks) schema)))
 
 (defn read-config!
   "Read and merge config from several sources:

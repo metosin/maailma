@@ -1,7 +1,6 @@
 (ns maailma.core-test
   (:require [clojure.test :refer :all]
             [clojure.java.io :as io]
-            [schema.core :as s]
             [maailma.core :refer :all])
   (:import [java.io File]))
 
@@ -12,9 +11,6 @@
          (->ks "maailma" "maailma.http.port")))
   (is (= nil
          (->ks "maailma" "foo.bar"))))
-
-(deftest env-get-test
-  (is (= 5 (env-get {:a "5"} [:a] s/Num))))
 
 (deftest read-system-test
   (is (= {:http {:port "3000"}}
@@ -30,12 +26,12 @@
 (deftest read-config!-test
   (let [config (read-config! "maailma" {:db {:port-number 5433}})]
     (testing "./config-local.edn"
-      (is (true? (env-get config [:local]))))
+      (is (true? (get-in config [:local]))))
     (testing "test-file"
-      (is (= 3000 (env-get config [:http :port] s/Num))))
+      (is (= 3000 (get-in config [:http :port]))))
     (testing "config-defaults.edn resource"
-      (is (= "localhost" (env-get config [:db :server-name]))))
+      (is (= "localhost" (get-in config [:db :server-name]))))
     (testing "override"
-      (is (= 5433 (env-get config [:db :port-number]))))
+      (is (= 5433 (get-in config [:db :port-number]))))
     (testing "decrypred value"
-      (is (= "abc123" (env-get config [:db :password]))))))
+      (is (= "abc123" (get-in config [:db :password]))))))

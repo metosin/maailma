@@ -5,8 +5,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"
             :distribution :repo
             :comments "same as Clojure"}
-  :dependencies [[prismatic/schema "1.0.3"]
-                 [org.jasypt/jasypt "1.9.2"]
+  :dependencies [[org.jasypt/jasypt "1.9.2"]
                  [metosin/potpuri "0.2.3"]]
   :plugins [[lein-codox "0.9.0"]]
 
