@@ -9,10 +9,9 @@
                  [prismatic/schema "0.4.2"]
                  [org.jasypt/jasypt "1.9.2"]
                  [metosin/potpuri "0.2.2"]]
-  :plugins [[codox "0.8.10"]]
+  :plugins [[lein-codox "0.9.0"]]
 
-  :codox {:src-dir-uri "http://github.com/metosin/maailma/blob/master/"
-          :src-linenum-anchor-prefix "L"}
+  :codox {:source-uri "http://github.com/metosin/maailma/blob/master/{filepath}#L{line}"}
 
   :profiles {:dev {:plugins [[jonase/eastwood "0.2.1"]]
                    :dependencies [[criterium "0.4.3"]

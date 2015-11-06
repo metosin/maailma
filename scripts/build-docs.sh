@@ -23,7 +23,9 @@ else
     )
 fi
 
-lein doc
+lein codox
+rm -r doc/*
+cp target/doc/* doc
 cd doc
 git add --all
 git commit -m "Build docs from ${rev}."
