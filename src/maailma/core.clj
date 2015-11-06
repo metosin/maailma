@@ -67,7 +67,8 @@
    Special property `:private-key` will be used to
    decrypt any encrypted (#ENC tag) values."
   [& parts]
-  (let [config (apply deep-merge parts)
+  ; Filter nils out, (deep-merge {...} nil) -> nil
+  (let [config (apply deep-merge (filter identity parts))
         private-key (:private-key config)
         config (dissoc config :private-key)
         decrypted (enc/decrypt-map private-key config)]
