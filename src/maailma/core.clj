@@ -23,12 +23,12 @@
           (as-> s (map keyword s))))
 
 (defn read-system
-  [config prefix properties]
+  [prefix properties]
   (reduce (fn [acc [k v]]
             (if-let [ks (->ks prefix k)]
               (assoc-in acc ks v)
               acc))
-          config properties))
+          {} properties))
 
 (defn- read-edn [s]
   (edn/read-string {:readers enc/readers} s))
@@ -36,11 +36,10 @@
 (defn read-env-file
   "Read config from given File or URL.
    Non-existing files are skipped."
-  [config env-file]
+  [env-file]
   (if (or (and (instance? File env-file) (.exists env-file))
           (instance? URL env-file))
-    (deep-merge config (-> env-file slurp read-edn))
-    config))
+    (-> env-file slurp read-edn)))
 
 (defn read-config!
   "Read and merge config from several sources:
@@ -54,12 +53,12 @@
    Special property `:private-key` will be used to
    decrypt any encrypted (#ENC tag) values."
   [prefix & [override]]
-  (let [config (-> {}
-                   (read-env-file (io/resource "config-defaults.edn"))
-                   (read-system prefix (System/getenv))
-                   (read-system prefix (System/getProperties))
-                   (read-env-file (io/file "./config-local.edn"))
-                   (deep-merge (or override {})))
+  (let [config (deep-merge
+                 (read-env-file (io/resource "config-defaults.edn"))
+                 (read-system prefix (System/getenv))
+                 (read-system prefix (System/getProperties))
+                 (read-env-file (io/file "./config-local.edn"))
+                 override)
         private-key (:private-key config)
         config (dissoc config :private-key)
         decrypted (enc/decrypt-map private-key config)]

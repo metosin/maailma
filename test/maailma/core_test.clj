@@ -14,14 +14,14 @@
 
 (deftest read-system-test
   (is (= {:http {:port "3000"}}
-         (read-system {} "maailma" {"java.class.path" "" "maailma.http.port" "3000"}))))
+         (read-system "maailma" {"java.class.path" "" "maailma.http.port" "3000"}))))
 
 (def test-file (File/createTempFile "maailma" "config-test.edn"))
 (spit test-file {:http {:port 3000}})
 
 (deftest read-env-file-test
   (is (= {:http {:port 3000}}
-         (read-env-file {} test-file))))
+         (read-env-file test-file))))
 
 (deftest read-config!-test
   (let [config (read-config! "maailma" {:db {:port-number 5433}})]
