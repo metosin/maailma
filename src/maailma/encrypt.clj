@@ -1,6 +1,7 @@
 (ns maailma.encrypt
   (:require [clojure.edn :as edn]
-            [clojure.walk :as walk])
+            [clojure.walk :as walk]
+            [clojure.tools.logging :as log])
   (:import [org.jasypt.encryption.pbe StandardPBEStringEncryptor]))
 
 ;;
@@ -32,7 +33,11 @@
   [secret m]
   (walk/prewalk
     (fn [x]
-      (if (and secret (instance? ENC x))
-        (decrypt secret (:value x))
+      (if (instance? ENC x)
+        (if secret
+          (decrypt secret (:value x))
+          (do
+            (log/warn "Encrypted value found but no secret provided.")
+            x))
         x))
     m))

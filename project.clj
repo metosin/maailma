@@ -6,7 +6,8 @@
             :distribution :repo
             :comments "same as Clojure"}
   :dependencies [[org.jasypt/jasypt "1.9.2"]
-                 [metosin/potpuri "0.2.3"]]
+                 [metosin/potpuri "0.2.3"]
+                 [org.clojure/tools.logging "0.3.1"]]
   :plugins [[lein-codox "0.9.0"]]
 
   :codox {:source-uri "http://github.com/metosin/maailma/blob/master/{filepath}#L{line}"}
