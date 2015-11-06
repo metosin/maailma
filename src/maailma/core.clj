@@ -84,10 +84,11 @@
 
    Special property `:private-key` will be used to
    decrypt any encrypted (#ENC tag) values."
-  [prefix]
-  (build-config
-    (resource "config-defaults.edn")
-    (env prefix)
-    (properties prefix)
-    (file "./config-local.edn")
-    override))
+  ([prefix] (read-config! prefix nil))
+  ([prefix override]
+   (build-config
+     (resource "config-defaults.edn")
+     (env prefix)
+     (properties prefix)
+     (file "./config-local.edn")
+     override)))
