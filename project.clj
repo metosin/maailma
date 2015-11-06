@@ -5,8 +5,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"
             :distribution :repo
             :comments "same as Clojure"}
-  :dependencies [[org.clojure/clojure "1.6.0"]
-                 [prismatic/schema "0.4.2"]
+  :dependencies [[prismatic/schema "0.4.2"]
                  [org.jasypt/jasypt "1.9.2"]
                  [metosin/potpuri "0.2.2"]]
   :plugins [[lein-codox "0.9.0"]]
@@ -15,8 +14,9 @@
 
   :profiles {:dev {:plugins [[jonase/eastwood "0.2.1"]]
                    :dependencies [[criterium "0.4.3"]
-                                  [org.clojure/clojurescript "0.0-3126"]]
+                                  [org.clojure/clojure "1.7.0"]]
                    :resource-paths ["test-resources"]}
-             :1.7 {:dependencies [[org.clojure/clojure "1.7.0-alpha6"]]}}
-  :aliases {"all" ["with-profile" "dev:dev,1.7"]
+             :1.6 {:dependencies [[org.clojure/clojure "1.6.0"]]}
+             :1.8 {:dependencies [[org.clojure/clojure "1.8.0-beta2"]]}}
+  :aliases {"all" ["with-profile" "dev:dev,1.6:dev,1.8"]
             "test-clj"  ["all" "do" ["test"] ["check"]]})
