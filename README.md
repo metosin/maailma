@@ -23,12 +23,29 @@ don't expect full support.
     - Environment variables
     - Java properties
     - Override parameter – useful for overriding options for [test systems](https://github.com/metosin/palikka/blob/master/test/palikka/core_test.clj#L9)
+- Configuration sources can be selected using functional interface
 - Encrypted values using EDN tag
     - `{:secret-value #ENC "OAgq01UxKpRp9S+MrIyf1w=="}`
     - Provides a password on read time to decrypt the values
     - Should be useful for providing passwords for development environment
     - Probably still not a good idea to share secrets publicly (at least check
     the encryption options first)
+
+## Example
+
+```clj
+(ns backend.system
+  (:require [maailma.core :as m]))
+
+(defn system [override]
+  (let [env (m/build-config
+              (m/resource "config-defaults.edn")
+              (m/env "prefix")
+              (m/properties "prefix")
+              (m/file "./config-local.edn")
+              override)]
+    ...))
+```
 
 ## License
 

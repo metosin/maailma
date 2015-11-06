@@ -41,6 +41,38 @@
           (instance? URL env-file))
     (-> env-file slurp read-edn)))
 
+(defn resource
+  "Reads configuration part from given path in classpath."
+  [s]
+  (read-env-file (io/resource s)))
+
+(defn file
+  "Reads configuration part from given path in filesystem."
+  [s]
+  (read-env-file (io/file s)))
+
+(defn env
+  "Reads configuration part from envinronment variables, filtered by a prefix."
+  [prefix]
+  (read-system prefix (System/getenv)))
+
+(defn properties
+  "Reads configuration part from system properties, filtered by a prefix."
+  [prefix]
+  (read-system prefix (System/getProperties)))
+
+(defn build-config
+  "Marges and decrypts given configuration parts.
+
+   Special property `:private-key` will be used to
+   decrypt any encrypted (#ENC tag) values."
+  [& parts]
+  (let [config (apply deep-merge parts)
+        private-key (:private-key config)
+        config (dissoc config :private-key)
+        decrypted (enc/decrypt-map private-key config)]
+    decrypted))
+
 (defn read-config!
   "Read and merge config from several sources:
 
@@ -52,15 +84,10 @@
 
    Special property `:private-key` will be used to
    decrypt any encrypted (#ENC tag) values."
-  ([prefix] (read-config! prefix nil))
-  ([prefix override]
-   (let [config (deep-merge
-                  (read-env-file (io/resource "config-defaults.edn"))
-                  (read-system prefix (System/getenv))
-                  (read-system prefix (System/getProperties))
-                  (read-env-file (io/file "./config-local.edn"))
-                  override)
-         private-key (:private-key config)
-         config (dissoc config :private-key)
-         decrypted (enc/decrypt-map private-key config)]
-     decrypted)))
+  [prefix]
+  (build-config
+    (resource "config-defaults.edn")
+    (env prefix)
+    (properties prefix)
+    (file "./config-local.edn")
+    override))
