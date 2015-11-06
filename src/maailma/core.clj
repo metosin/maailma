@@ -48,7 +48,6 @@
    - config-defaults.edn resource
    - envinronment variables (filtered by prefix)
    - system properties (filtered by prefix)
-   - {prefix}-private.edn file in current directory
    - config-local.edn file in current directory
    - override parameter
 
@@ -59,7 +58,6 @@
                    (read-env-file (io/resource "config-defaults.edn"))
                    (read-system prefix (System/getenv))
                    (read-system prefix (System/getProperties))
-                   (read-env-file (io/file (str "./" prefix "-private.edn")))
                    (read-env-file (io/file "./config-local.edn"))
                    (deep-merge (or override {})))
         private-key (:private-key config)
