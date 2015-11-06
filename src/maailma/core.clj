@@ -52,14 +52,15 @@
 
    Special property `:private-key` will be used to
    decrypt any encrypted (#ENC tag) values."
-  [prefix & [override]]
-  (let [config (deep-merge
-                 (read-env-file (io/resource "config-defaults.edn"))
-                 (read-system prefix (System/getenv))
-                 (read-system prefix (System/getProperties))
-                 (read-env-file (io/file "./config-local.edn"))
-                 override)
-        private-key (:private-key config)
-        config (dissoc config :private-key)
-        decrypted (enc/decrypt-map private-key config)]
-    decrypted))
+  ([prefix] (read-config! prefix nil))
+  ([prefix override]
+   (let [config (deep-merge
+                  (read-env-file (io/resource "config-defaults.edn"))
+                  (read-system prefix (System/getenv))
+                  (read-system prefix (System/getProperties))
+                  (read-env-file (io/file "./config-local.edn"))
+                  override)
+         private-key (:private-key config)
+         config (dissoc config :private-key)
+         decrypted (enc/decrypt-map private-key config)]
+     decrypted)))
