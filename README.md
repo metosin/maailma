@@ -17,6 +17,8 @@ don't expect full support.
 
 ## Features
 
+- Represents application configuration as a single map which is read once on startup
+    - Should work well with [Component](https://github.com/stuartsierra/component)
 - Reads configuration from multiple sources and recursively merges it
     - EDN files in classpath – shipped with JAR, useful for default options
     - EDN files in filesystem – created by hand or by deploy tooling
@@ -47,6 +49,13 @@ don't expect full support.
               override)]
     ...))
 ```
+
+## Notes
+
+- Is it necessary to refresh configuration of running application?
+    - Most fixes done to running production systems over REPL are very small fixes to integration logic
+    - It's possible that some integration settings need to be changed quickly?
+    - Probably not necessary. Most logic is isolated to pure functions and the can be replaced over REPL without touching components or configuration.
 
 ## License
 
