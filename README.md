@@ -17,18 +17,19 @@ don't expect full support.
 
 ## Features
 
-- Reads configuration from multiple sources and recursively merge it
+- Reads configuration from multiple sources and recursively merges it
     - EDN files in classpath – shipped with JAR, useful for default options
     - EDN files in filesystem – created by hand or by deploy tooling
     - Environment variables
     - Java properties
     - Override parameter – useful for overriding options for [test systems](https://github.com/metosin/palikka/blob/master/test/palikka/core_test.clj#L9)
-- Configuration sources can be selected using functional interface
+    - User selects the sources themselves
+    - Extendable with functions
 - Encrypted values using EDN tag
     - `{:secret-value #ENC "OAgq01UxKpRp9S+MrIyf1w=="}`
     - Provides a password on read time to decrypt the values
     - Should be useful for providing passwords for development environment
-    - Probably still not a good idea to share secrets publicly (at least check
+    - Probably still not a good idea to share encrypted values publicly (at least check
     the encryption options first)
 
 ## Example
