@@ -5,9 +5,8 @@
   (:import [org.jasypt.encryption.pbe StandardPBEStringEncryptor]
            [org.jasypt.registry AlgorithmRegistry]))
 
-;;
-;; decrypt
-;;
+
+(def +default-algorithm+ "PBEWITHSHA1ANDDESEDE")
 
 (defrecord ENC [algorithm value])
 
@@ -17,15 +16,26 @@
 (defmethod print-dup ENC [v out]
   (.write out (str "#ENC" (pr-str (into {} v)))))
 
-(def +default-algorithm+ "PBEWITHSHA1ANDDESEDE")
+(defn- merge-default-options [options]
+  (-> options
+      (update :algorithm #(or % +default-algorithm+))))
+
+(defn enc
+  "Creates a new ENC record."
+  [m]
+  {:pre [(string? (:algorithm m))]}
+  (map->ENC m))
 
 (defn read-enc
-  "Supports both maps, #ENC{:value \"encoded-string\" :algorithm \"foo\"}
+  "Reads tagged value from EDN.
+
+  Supports both maps #ENC{:value \"encoded-string\" :algorithm \"foo\"}
   and strings #ENC\"encoded-string\"."
   [map-or-string]
   (if (string? map-or-string)
-    (->ENC nil map-or-string)
-    (map->ENC map-or-string)))
+    ;; Legacy format
+    (enc {:algorithm +default-algorithm+ :value map-or-string})
+    (enc map-or-string)))
 
 (def readers {'ENC read-enc})
 
@@ -41,7 +51,8 @@
   Returns ENC Record. Use pr-str to turn this into string for the EDN file."
   ([secret text] (encrypt secret text nil))
   ([secret text options]
-   (map->ENC (assoc options :value  (.encrypt (create-encryptor secret options) text)))))
+   (let [options (merge-default-options options)]
+     (enc (assoc options :value (.encrypt (create-encryptor secret options) text))))))
 
 (defn decrypt
   "Decrypt value from given ENC record using given secret."
