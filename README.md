@@ -57,6 +57,28 @@ don't expect full support.
     - It's possible that some integration settings need to be changed quickly?
     - Probably not necessary. Most logic is isolated to pure functions and the can be replaced over REPL without touching components or configuration.
 
+## Better encryption algorithms
+
+Make sure you have [Java Cryptography Extension Unlimited Strength Jurisdiction Policy Files](http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html)
+installed. After that, you can check `maailma.encrypt/available-algorithms`
+for list of encryption algorithms that are supported.
+
+You might also want to use algorithms provided by [Bouncy Castle](http://www.bouncycastle.org)...
+
+Dependency:
+```
+[org.bouncycastle/bcprov-jdk15on "1.56"]
+```
+
+Enable JCE provider:
+```
+(ns ...
+  (:import [java.security Security]
+           [org.bouncycastle.jce.provider BouncyCastleProvider]))
+
+(Security/addProvider (BouncyCastleProvider.))
+```
+
 ## License
 
 Copyright © 2015 [Metosin Oy](http://www.metosin.fi)
