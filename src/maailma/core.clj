@@ -10,7 +10,7 @@
 ;; common
 ;;
 
-(defn ->ks
+(defn ^:no-doc ->ks
   "Normalize the string, split and map to keywords.
    Returns nil if the string doesn't match the app property prefix."
   [prefix s]
@@ -21,7 +21,7 @@
           (string/split #"\.")
           (as-> s (map keyword s))))
 
-(defn read-system
+(defn ^:no-doc read-system
   [prefix properties]
   (reduce (fn [acc [k v]]
             (if-let [ks (->ks prefix k)]
@@ -61,7 +61,7 @@
   (read-system prefix (System/getProperties)))
 
 (defn build-config
-  "Marges given configuration parts."
+  "Merges given configuration parts."
   [& parts]
   ; Filter nils out, (deep-merge {...} nil) -> nil
   (apply deep-merge (filter identity parts)))

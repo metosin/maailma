@@ -1,5 +1,5 @@
 (defproject metosin/maailma "0.3.0-SNAPSHOT"
-  :description "Metosin maailma"
+  :description "An opinionated configuration library"
   :url "https://github.com/metosin/maailma"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"
@@ -10,7 +10,7 @@
                  [org.clojure/tools.logging "0.3.1"]]
   :plugins [[lein-codox "0.10.3"]]
 
-  :codox {:source-uri "http://github.com/metosin/maailma/blob/master/{filepath}#L{line}"}
+  :codox {:source-uri "http://github.com/metosin/maailma/blob/{version}/{filepath}#L{line}"}
 
   :profiles {:dev {:plugins [[jonase/eastwood "0.2.1"]]
                    :dependencies [[criterium "0.4.3"]
