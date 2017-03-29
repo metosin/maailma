@@ -64,10 +64,7 @@
   "Marges given configuration parts."
   [& parts]
   ; Filter nils out, (deep-merge {...} nil) -> nil
-  (let [config (apply deep-merge (filter identity parts))
-        private-key (:private-key config)
-        config (dissoc config :private-key)]
-    config))
+  (apply deep-merge (filter identity parts)))
 
 (defn read-config!
   "Read and merge config from several sources:
