@@ -27,12 +27,6 @@ don't expect full support.
     - Override parameter – useful for overriding options for [test systems](https://github.com/metosin/palikka/blob/master/test/palikka/core_test.clj#L9)
     - User selects the sources themselves
     - Extendable with functions
-- Encrypted values using EDN tag
-    - `{:secret-value #ENC "OAgq01UxKpRp9S+MrIyf1w=="}`
-    - Provides a password on read time to decrypt the values
-    - Should be useful for providing passwords for development environment
-    - Probably still not a good idea to share encrypted values publicly (at least check
-    the encryption options first)
 
 ## Example
 
