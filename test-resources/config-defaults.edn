@@ -3,5 +3,5 @@
       :port-number 5432
       :database-name "app-db"
       :username "db-user"
-      :password #ENC "OAgq01UxKpRp9S+MrIyf1w=="}
+      :password "abc123"}
  :http {:port 3000}}

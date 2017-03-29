@@ -33,5 +33,5 @@
       (is (= "localhost" (get-in config [:db :server-name]))))
     (testing "override"
       (is (= 5433 (get-in config [:db :port-number]))))
-    (testing "decrypred value"
+    (testing "db password value"
       (is (= "abc123" (get-in config [:db :password]))))))

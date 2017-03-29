@@ -2,8 +2,7 @@
   (:require [clojure.string :as string]
             [clojure.java.io :as io]
             [clojure.edn :as edn]
-            [potpuri.core :refer [deep-merge]]
-            [maailma.encrypt :as enc])
+            [potpuri.core :refer [deep-merge]])
   (:import [java.io File]
            [java.net URL]))
 
@@ -31,7 +30,7 @@
           {} properties))
 
 (defn- read-edn [s]
-  (edn/read-string {:readers enc/readers} s))
+  (edn/read-string {} s))
 
 (defn read-env-file
   "Read config from given File or URL.
@@ -62,17 +61,10 @@
   (read-system prefix (System/getProperties)))
 
 (defn build-config
-  "Marges and decrypts given configuration parts.
-
-   Special property `:private-key` will be used to
-   decrypt any encrypted (#ENC tag) values."
+  "Marges given configuration parts."
   [& parts]
   ; Filter nils out, (deep-merge {...} nil) -> nil
-  (let [config (apply deep-merge (filter identity parts))
-        private-key (:private-key config)
-        config (dissoc config :private-key)
-        decrypted (enc/decrypt-map private-key config)]
-    decrypted))
+  (apply deep-merge (filter identity parts)))
 
 (defn read-config!
   "Read and merge config from several sources:
@@ -81,10 +73,7 @@
    - envinronment variables (filtered by prefix)
    - system properties (filtered by prefix)
    - config-local.edn file in current directory
-   - override parameter
-
-   Special property `:private-key` will be used to
-   decrypt any encrypted (#ENC tag) values."
+   - override parameter"
   ([prefix] (read-config! prefix nil))
   ([prefix override]
    (build-config
