@@ -1,10 +1,7 @@
 sudo: false
 language: clojure
 lein: 2.7.1
-script: $TEST
-env:
-  matrix:
-  - TEST=lein test-clj
+script: lein test-clj
 jdk:
 - openjdk6
 - openjdk7
