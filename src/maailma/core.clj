@@ -60,6 +60,15 @@
   [prefix]
   (read-system prefix (System/getProperties)))
 
+(defn env-var
+  "Reads a configuration value from an environment variable and associates it to
+  the given path in a map.
+
+      (env-var \"SERVER_PORT\" [:http :port])  ; => {:http {:port \"8080\"}}"
+  [var-name path]
+  (when-let [value (System/getenv var-name)]
+    (assoc-in {} path value)))
+
 (defn build-config
   "Merges given configuration parts."
   [& parts]
