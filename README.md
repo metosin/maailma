@@ -38,6 +38,7 @@ don't expect full support.
   (let [env (m/build-config
               (m/resource "config-defaults.edn")
               (m/env "prefix")
+              (m/env-var "SERVER_PORT" [:http :port])
               (m/properties "prefix")
               (m/file "./config-local.edn")
               override)]
