@@ -1,12 +1,11 @@
-(defproject metosin/maailma "0.3.0-SNAPSHOT"
+(defproject metosin/maailma "1.0.0-SNAPSHOT"
   :description "An opinionated configuration library"
   :url "https://github.com/metosin/maailma"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"
             :distribution :repo
             :comments "same as Clojure"}
-  :dependencies [[org.jasypt/jasypt "1.9.2"]
-                 [metosin/potpuri "0.5.1"]
+  :dependencies [[metosin/potpuri "0.5.1"]
                  [org.clojure/tools.logging "0.4.0"]]
   :plugins [[lein-codox "0.10.3"]]
 
