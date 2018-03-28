@@ -1,4 +1,4 @@
-(defproject metosin/maailma "1.0.1-SNAPSHOT"
+(defproject metosin/maailma "1.1.0-SNAPSHOT"
   :description "An opinionated configuration library"
   :url "https://github.com/metosin/maailma"
   :license {:name "Eclipse Public License"
@@ -13,7 +13,8 @@
 
   :profiles {:dev {:plugins [[jonase/eastwood "0.2.1"]]
                    :dependencies [[criterium "0.4.4"]
-                                  [org.clojure/clojure "1.9.0"]]
+                                  [org.clojure/clojure "1.9.0"]
+                                  [integrant "0.6.3"]]
                    :resource-paths ["test-resources"]}
              :1.7 {:dependencies [[org.clojure/clojure "1.7.0"]]}
              :1.8 {:dependencies [[org.clojure/clojure "1.8.0"]]}}

@@ -1,7 +1,8 @@
 (ns maailma.core-test
   (:require [clojure.test :refer :all]
             [clojure.java.io :as io]
-            [maailma.core :refer :all])
+            [maailma.core :refer :all]
+            [integrant.core :as ig])
   (:import [java.io File]))
 
 (deftest ->ks-test
@@ -35,3 +36,8 @@
       (is (= 5433 (get-in config [:db :port-number]))))
     (testing "db password value"
       (is (= "abc123" (get-in config [:db :password]))))))
+
+(deftest read-integrant-test
+  (let [config (resource "config-integrant.edn" {:readers {'ig/ref ig/ref}})]
+    (testing "./config-local.edn"
+      (is (ig/ref? (:asd config))))))
