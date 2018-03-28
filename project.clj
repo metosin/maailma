@@ -5,8 +5,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"
             :distribution :repo
             :comments "same as Clojure"}
-  :dependencies [[metosin/potpuri "0.5.1"]
-                 [org.clojure/tools.logging "0.4.0"]]
+  :dependencies [[metosin/potpuri "0.5.1"]]
   :plugins [[lein-codox "0.10.3"]]
 
   :codox {:source-uri "http://github.com/metosin/maailma/blob/{version}/{filepath}#L{line}"}
