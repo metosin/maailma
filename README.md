@@ -27,6 +27,7 @@ don't expect full support.
     - Override parameter – useful for overriding options for [test systems](https://github.com/metosin/palikka/blob/master/test/palikka/core_test.clj#L9)
     - User selects the sources themselves
     - Extendable with functions
+- EDN readers can be provided as option, which allows use with [Integrant](https://github.com/weavejester/integrant)
 
 ## Example
 
@@ -44,6 +45,19 @@ don't expect full support.
               override)]
     ...))
 ```
+
+### Integrant example
+
+Add reader options to `resource` and `file` calls:
+
+```clj
+(ig/load-namespaces
+  (m/build-config
+    (m/resource "config.edn" {:readers {'ig/ref ig/ref}})
+    (m/file "config-local.edn" {:readers {'ig/ref ig/ref}})))
+```
+
+(Not supported with `read-config!` function)
 
 ## Notes
 

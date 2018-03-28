@@ -35,3 +35,10 @@
       (is (= 5433 (get-in config [:db :port-number]))))
     (testing "db password value"
       (is (= "abc123" (get-in config [:db :password]))))))
+
+(defrecord Foo [x])
+
+(deftest edn-readers-test
+  (let [config (resource "config-readers.edn" {:readers {'m/foo ->Foo}})]
+    (testing "./config-local.edn"
+      (is (instance? Foo (:asd config))))))

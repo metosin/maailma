@@ -1,4 +1,4 @@
-(defproject metosin/maailma "1.0.1-SNAPSHOT"
+(defproject metosin/maailma "1.1.0-SNAPSHOT"
   :description "An opinionated configuration library"
   :url "https://github.com/metosin/maailma"
   :license {:name "Eclipse Public License"

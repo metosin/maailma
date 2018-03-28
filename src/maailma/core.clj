@@ -29,26 +29,32 @@
               acc))
           {} properties))
 
-(defn- read-edn [s]
-  (edn/read-string {} s))
+(defn- read-edn [s reader-opts]
+  (edn/read-string (or reader-opts {}) s))
 
 (defn read-env-file
   "Read config from given File or URL.
    Non-existing files are skipped."
-  [env-file]
-  (if (or (and (instance? File env-file) (.exists env-file))
-          (instance? URL env-file))
-    (-> env-file slurp read-edn)))
+  ([env-file]
+   (read-env-file env-file nil))
+  ([env-file reader-opts]
+   (if (or (and (instance? File env-file) (.exists env-file))
+           (instance? URL env-file))
+     (-> env-file slurp (read-edn reader-opts)))))
 
 (defn resource
   "Reads configuration part from given path in classpath."
-  [s]
-  (read-env-file (io/resource s)))
+  ([path]
+   (resource path nil))
+  ([path reader-opts]
+   (read-env-file (io/resource path) reader-opts)))
 
 (defn file
   "Reads configuration part from given path in filesystem."
-  [s]
-  (read-env-file (io/file s)))
+  ([file-path]
+   (file file-path nil))
+  ([file-path reader-opts]
+   (read-env-file (io/file file-path) reader-opts)))
 
 (defn env
   "Reads configuration part from envinronment variables, filtered by a prefix."
