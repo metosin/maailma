@@ -13,8 +13,7 @@
 
   :profiles {:dev {:plugins [[jonase/eastwood "0.2.1"]]
                    :dependencies [[criterium "0.4.4"]
-                                  [org.clojure/clojure "1.9.0"]
-                                  [integrant "0.6.3"]]
+                                  [org.clojure/clojure "1.9.0"]]
                    :resource-paths ["test-resources"]}
              :1.7 {:dependencies [[org.clojure/clojure "1.7.0"]]}
              :1.8 {:dependencies [[org.clojure/clojure "1.8.0"]]}}
