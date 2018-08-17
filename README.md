@@ -70,4 +70,4 @@ Add reader options to `resource` and `file` calls:
 
 Copyright © 2015-2018 [Metosin Oy](http://www.metosin.fi).
 
-Distributed under the Eclipse Public License, the same as Clojure.
+Distributed under the Eclipse Public License 2.0.

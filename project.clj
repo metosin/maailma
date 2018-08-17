@@ -2,9 +2,7 @@
   :description "An opinionated configuration library"
   :url "https://github.com/metosin/maailma"
   :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"
-            :distribution :repo
-            :comments "same as Clojure"}
+            :url "http://www.eclipse.org/legal/epl-v20.html"}
   :dependencies [[metosin/potpuri "0.5.1"]]
   :plugins [[lein-codox "0.10.3"]]
 
